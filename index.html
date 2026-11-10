@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101915" />
+  <meta name="description" content="Kasua — the digital home for physical businesses." />
+  <title>Kasua — Your business, everywhere</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="toast" class="toast" role="status"></div>
+  <header class="topbar">
+    <a class="brand" href="#market" aria-label="Kasua home"><span class="brand-mark">k</span><span>kasua<span class="brand-dot">.</span></span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-link active" data-view="market">Discover</button>
+      <button class="nav-link" data-view="business">For business</button>
+    </nav>
+    <div class="top-actions"><button class="icon-button" id="cartBtn" aria-label="Shopping bag">Bag <span id="cartCount" class="cart-count">0</span></button><button class="button button-dark button-small" id="authBtn">Sign in</button></div>
+  </header>
+
+  <main>
+    <section id="marketView" class="view">
+      <section class="hero">
+        <div class="hero-copy"><div class="eyebrow"><span class="pulse"></span> THE MARKET, REIMAGINED</div><h1>Your city.<br><em>One marketplace.</em></h1><p>Discover independent businesses around you. Shop the stalls you know, and find the ones you haven't met yet.</p><div class="hero-search"><span>⌕</span><input id="searchInput" placeholder="What are you looking for today?" autocomplete="off"><button id="searchBtn">Explore <span>↗</span></button></div><div class="hero-foot"><span>✳ Built for local business</span><span>Independent sellers · Real products</span></div></div>
+        <div class="hero-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="hero-sphere"><span>k.</span></div><div class="float-card float-top"><span class="float-icon">✳</span><div><b>Local finds</b><small>Made closer to you</small></div></div><div class="float-card float-bottom"><span class="float-icon dark">↗</span><div><b>One link. Your shop.</b><small>Every business has a home</small></div></div><div class="hero-index">01 <span>—</span> 03</div></div>
+      </section>
+      <section class="content-section category-section"><div class="section-heading"><div><div class="eyebrow muted">EXPLORE THE NETWORK</div><h2>Find your next <em>favourite.</em></h2></div><span class="subtle-note">A world of local businesses</span></div><div class="categories" id="categories"><button class="category-chip selected" data-category="All">All stores <span>↗</span></button><button class="category-chip" data-category="Fashion">Fashion</button><button class="category-chip" data-category="Electronics">Electronics</button><button class="category-chip" data-category="Beauty">Beauty</button><button class="category-chip" data-category="Home">Home & living</button><button class="category-chip" data-category="Food">Food</button><button class="category-chip" data-category="Other">More</button></div></section>
+      <section class="content-section"><div class="section-heading"><div><div class="eyebrow muted">CURATED FOR YOU</div><h2>Products worth <em>discovering.</em></h2></div><button class="text-button" id="clearFilters">View all products ↗</button></div><div id="productGrid" class="product-grid"></div><div id="emptyState" class="empty-state hidden"><div class="empty-icon">⌕</div><h3>No products found</h3><p>Try another search or category.</p></div></section>
+      <section class="seller-cta"><div><div class="eyebrow">YOUR BUSINESS BELONGS HERE</div><h2>Your shop deserves<br><em>its own place online.</em></h2><p>Bring your physical business onto Kasua. Create your storefront, organise your products and grow beyond your street.</p><button class="button button-light" data-go="business">Bring my business online <span>↗</span></button></div><div class="cta-stamp">YOUR<br>SHOP.<br><span>YOUR<br>WORLD.</span></div></section>
+    </section>
+
+    <section id="businessView" class="view hidden">
+      <div id="businessLanding" class="business-landing"><div class="eyebrow"><span class="pulse"></span> KASUA FOR BUSINESS</div><h1>Run your business.<br><em>Not five different apps.</em></h1><p>Your digital storefront, products, stock, sales and business records — together in one simple workspace.</p><div class="landing-actions"><button class="button button-light" id="getStarted">Create your business <span>↗</span></button><button class="button button-ghost" id="demoBtn">Explore the demo</button></div><div class="landing-features"><div><b>01</b><span>Your own storefront</span></div><div><b>02</b><span>Know your numbers</span></div><div><b>03</b><span>Grow across branches</span></div></div></div>
+      <div id="dashboard" class="dashboard hidden"><aside class="sidebar"><div class="sidebar-business"><div class="business-avatar">E</div><div><b id="sideBusinessName">Emmy Fashion</b><small id="sideBusinessLocation">Marian Market</small></div><span class="online-dot"></span></div><div class="sidebar-label">WORKSPACE</div><button class="side-link active" data-panel="overview">◫ <span>Overview</span></button><button class="side-link" data-panel="products">▦ <span>Products & stock</span></button><button class="side-link" data-panel="sales">↗ <span>Sales</span></button><button class="side-link" data-panel="expenses">⇄ <span>Expenses</span></button><button class="side-link" data-panel="branches">⌖ <span>Branches</span></button><div class="sidebar-bottom"><div class="sidebar-label">YOUR STOREFRONT</div><button class="side-link" id="openStore">↗ <span>View digital shop</span></button><button class="side-link" id="signOutBtn">⇥ <span>Sign out</span></button></div></aside><div class="dashboard-main"><div class="dashboard-top"><div><div class="eyebrow muted">BUSINESS WORKSPACE</div><h2 id="panelTitle">Good morning.</h2><p id="panelSubtitle">Here's what's happening with your business today.</p></div><div class="dashboard-top-actions"><select id="branchSelect" aria-label="Select branch"><option value="all">All branches</option></select><button class="button button-dark button-small" id="quickAdd">＋ Add product</button></div></div><div id="panelContent"></div></div></div>
+    </section>
+  </main>
+
+  <footer class="footer"><a class="brand" href="#market"><span class="brand-mark">k</span><span>kasua<span class="brand-dot">.</span></span></a><span>Digital infrastructure for the businesses that move our communities.</span><span>© 2026 Kasua</span></footer>
+
+  <div id="modalBackdrop" class="modal-backdrop hidden"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><div class="eyebrow muted">KASUA WORKSPACE</div><h2 id="modalTitle">Let's get started.</h2></div><button class="close-button" id="closeModal" aria-label="Close">×</button></div><div id="modalBody"></div></section></div>
+  <script src="app.js"></script>
+</body>
+</html>
